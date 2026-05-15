@@ -19,7 +19,10 @@ export function RulePanel({ state }: RulePanelProps) {
         <ol className="rule-list">
           {rules.map((rule) => (
             <li key={rule.id} className={`rule-item ${rule.status}`}>
-              <strong>{rule.title}</strong>
+              <div className="rule-heading">
+                <strong>{rule.title}</strong>
+                <span>{rule.status}</span>
+              </div>
               <p>{rule.description}</p>
               <small>{rule.message}</small>
             </li>

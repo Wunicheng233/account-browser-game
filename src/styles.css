@@ -194,6 +194,56 @@ button {
   background: white;
 }
 
+.rule-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
+.rule-heading span {
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: #536172;
+}
+
+.code-display {
+  display: inline-block;
+  font-size: 2.2rem;
+  letter-spacing: 0.08em;
+  margin: 8px 0;
+}
+
+.identity-card,
+.mail-list,
+.site-card dl {
+  display: grid;
+  gap: 8px;
+}
+
+.identity-card dt,
+.site-card dt {
+  color: #536172;
+  font-size: 0.85rem;
+}
+
+.identity-card dd,
+.site-card dd {
+  margin: 0;
+}
+
+.mail-list {
+  list-style: none;
+  padding: 0;
+}
+
+.mail-list li {
+  border: 1px solid #d8dee8;
+  border-radius: 6px;
+  padding: 10px;
+  background: #f8fafc;
+}
+
 .ending-screen {
   min-height: 100vh;
   display: grid;
