@@ -31,13 +31,185 @@ button {
 
 .app-shell {
   min-height: 100vh;
-  padding: 16px;
+  padding: 12px;
 }
 
-.browser-panel {
-  min-height: calc(100vh - 32px);
+.game-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 12px;
+  min-height: calc(100vh - 24px);
+}
+
+.browser-window,
+.rule-panel {
   border: 1px solid #c8ced8;
   background: #f8fafc;
   border-radius: 8px;
-  padding: 18px;
+  overflow: hidden;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(120px, 1fr) auto;
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid #d8dee8;
+  background: #eef2f7;
+}
+
+.address-bar,
+.field,
+.text-area {
+  width: 100%;
+  border: 1px solid #b7c0ce;
+  border-radius: 6px;
+  background: white;
+  color: #18212f;
+  padding: 9px 10px;
+}
+
+.text-area {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.icon-button,
+.proxy-toggle,
+.tab,
+.primary-button,
+.secondary-button {
+  border: 1px solid #9eabbc;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #18212f;
+  padding: 9px 12px;
+}
+
+.primary-button {
+  background: #1c5f8f;
+  border-color: #1c5f8f;
+  color: white;
+}
+
+.site-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 8px;
+  overflow-x: auto;
+  border-bottom: 1px solid #d8dee8;
+  background: #f5f7fa;
+}
+
+.tab.active {
+  background: #dce9f5;
+  border-color: #6f9ec5;
+}
+
+.site-viewport {
+  padding: 16px;
+  min-height: calc(100vh - 128px);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.field-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.rule-panel {
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.status-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #c8ced8;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.rule-list {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.rule-item {
+  border: 1px solid #c8ced8;
+  border-radius: 6px;
+  padding: 10px;
+  background: white;
+}
+
+.rule-item p {
+  margin: 6px 0;
+}
+
+.rule-item.passed {
+  border-color: #5f9f75;
+  background: #f0faf2;
+}
+
+.rule-item.failed {
+  border-color: #c57575;
+  background: #fff5f5;
+}
+
+.rule-item.locked {
+  color: #667085;
+  background: #f2f4f7;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-list span {
+  border-radius: 999px;
+  background: #e6edf5;
+  padding: 5px 8px;
+  font-size: 0.85rem;
+}
+
+.system-log {
+  padding-left: 18px;
+}
+
+.site-card {
+  border: 1px solid #c8ced8;
+  border-radius: 8px;
+  padding: 14px;
+  background: white;
+}
+
+@media (max-width: 900px) {
+  .game-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .rule-panel {
+    max-height: 48vh;
+  }
+}
+
+@media (max-width: 620px) {
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
 }

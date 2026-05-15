@@ -1,10 +1,19 @@
+import { useEffect, useReducer } from "react";
+import { BrowserShell } from "./components/browser/BrowserShell";
+import { createInitialState } from "./game/initialState";
+import { loadGame, saveGame } from "./game/persistence";
+import { gameReducer } from "./game/reducer";
+
 export function App() {
+  const [state, dispatch] = useReducer(gameReducer, undefined, () => loadGame() ?? createInitialState());
+
+  useEffect(() => {
+    saveGame(state);
+  }, [state]);
+
   return (
     <main className="app-shell">
-      <section className="browser-panel" aria-label="Fictional browser">
-        <h1>Account Browser</h1>
-        <p>Create an account. Recover the account. Remain the same person.</p>
-      </section>
+      <BrowserShell state={state} dispatch={dispatch} />
     </main>
   );
 }
