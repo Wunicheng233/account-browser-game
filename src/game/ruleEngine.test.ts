@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { makeState } from "../test/fixtures";
-import { evaluateRules, unlockNextRuleIds } from "./ruleEngine";
+import { collectRiskTags, evaluateRules, unlockNextRuleIds } from "./ruleEngine";
 
 describe("ruleEngine", () => {
   it("evaluates locked and unlocked rules separately", () => {
@@ -18,5 +18,14 @@ describe("ruleEngine", () => {
     });
 
     expect(unlockNextRuleIds(state)).toContain("create.password");
+  });
+
+  it("collects risk tags from failed unlocked rules", () => {
+    const state = makeState({
+      unlockedRuleIds: ["create.phoneRegion"],
+      profile: { region: "United States", phone: "+44 20 0000 0000" },
+    });
+
+    expect(collectRiskTags(state)).toContain("region_mismatch");
   });
 });

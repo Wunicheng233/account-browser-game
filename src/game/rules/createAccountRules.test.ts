@@ -3,6 +3,34 @@ import { makeState } from "../../test/fixtures";
 import { createAccountRules } from "./createAccountRules";
 
 const byId = Object.fromEntries(createAccountRules.map((rule) => [rule.id, rule]));
+const allCreateRuleIds = createAccountRules.map((rule) => rule.id);
+
+function makeAllUnlockedValidCreateState() {
+  return makeState({
+    unlockedRuleIds: allCreateRuleIds,
+    profile: {
+      email: "ordinary@example.com",
+      username: "agent27safe",
+      password: "P@sswordCloudyAI27",
+      region: "United States",
+      phone: "+1 555 0100",
+      birthday: "1990-01-01",
+      recoveryEmail: "ordinary@backup.com",
+      registrationStatement: "I am an ordinary user with nihao context for safe productivity and calm global access.",
+      smsCode: "482739",
+      identityCard: {
+        name: "Ordinary User",
+        birthday: "1990-01-01",
+        region: "United States",
+        identityNumber: "ID-123456",
+      },
+    },
+    browser: {
+      currentSmsCode: "482739",
+      smsRequiredTotal: 33,
+    },
+  });
+}
 
 describe("create account rules", () => {
   it("validates English-only submitted text", () => {
@@ -49,5 +77,18 @@ describe("create account rules", () => {
     });
 
     expect(byId["create.identityRegion"].check(state).status).toBe("failed");
+  });
+
+  it("passes completion when all unlocked create rules pass", () => {
+    const state = makeAllUnlockedValidCreateState();
+
+    expect(byId["create.complete"].check(state).status).toBe("passed");
+  });
+
+  it("fails completion when an earlier unlocked create rule is broken", () => {
+    const state = makeAllUnlockedValidCreateState();
+    state.profile.email = "not-an-email";
+
+    expect(byId["create.complete"].check(state).status).toBe("failed");
   });
 });

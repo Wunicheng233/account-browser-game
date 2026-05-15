@@ -1,4 +1,4 @@
-import type { RuleDefinition } from "../types";
+import type { RuleContext, RuleDefinition } from "../types";
 import {
   ageFromBirthday,
   createChecks,
@@ -15,6 +15,13 @@ import {
   statementHasRomanizedWord,
   timezoneMatchesRegion,
 } from "./helpers";
+
+function allPriorUnlockedCreateRulesPass(context: RuleContext): boolean {
+  return createAccountRules
+    .filter((rule) => rule.id !== "create.complete")
+    .filter((rule) => context.unlockedRuleIds.includes(rule.id))
+    .every((rule) => rule.check(context).status === "passed");
+}
 
 export const createAccountRules: RuleDefinition[] = [
   {
@@ -230,6 +237,9 @@ export const createAccountRules: RuleDefinition[] = [
     title: "Create account",
     description: "All unlocked Create Account rules must pass.",
     unlockAfter: "create.identityRegion",
-    check: () => pass("Account created. Account suspended."),
+    check: (context) =>
+      allPriorUnlockedCreateRulesPass(context)
+        ? pass("Account created. Account suspended.")
+        : fail("All unlocked Create Account rules must pass before creation."),
   },
 ];
