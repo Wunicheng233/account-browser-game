@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeEach } from "vitest";
 import { createInitialState } from "./initialState";
-import { loadGame, saveGame } from "./persistence";
+import { loadGame, saveGame, SAVE_KEY } from "./persistence";
 
 describe("persistence", () => {
   beforeEach(() => {
@@ -17,7 +17,20 @@ describe("persistence", () => {
   });
 
   it("returns null for invalid saved data", () => {
-    localStorage.setItem("account-browser-save", "{not json");
+    localStorage.setItem(SAVE_KEY, "{not json");
+
+    expect(loadGame()).toBeNull();
+  });
+
+  it("returns null for malformed same-version saved data", () => {
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ saveVersion: 1 }));
+
+    expect(loadGame()).toBeNull();
+  });
+
+  it("returns null for version mismatch", () => {
+    const state = createInitialState();
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ ...state, saveVersion: 0 }));
 
     expect(loadGame()).toBeNull();
   });

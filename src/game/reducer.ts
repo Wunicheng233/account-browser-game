@@ -1,11 +1,16 @@
 import { REGION_TIMEZONE } from "./constants";
 import { chooseEnding } from "./endings";
-import { collectRiskTags, unlockNextRuleIds } from "./ruleEngine";
+import { collectRiskTags, evaluateRules, unlockNextRuleIds } from "./ruleEngine";
+import { recoverAccountRules } from "./rules/recoverAccountRules";
 import { generateSmsCode } from "./sms";
 import type { GameState, IdentityCard, Profile, SiteId, SupportedRegion } from "./types";
 
+type StringProfileField = {
+  [Field in keyof Profile]: Profile[Field] extends string ? Field : never;
+}[keyof Profile];
+
 export type GameAction =
-  | { type: "profile/update"; field: keyof Profile; value: string }
+  | { type: "profile/update"; field: StringProfileField; value: string }
   | { type: "browser/navigate"; site: SiteId }
   | { type: "browser/back" }
   | { type: "browser/toggleProxy" }
@@ -23,6 +28,17 @@ function withRuleUpdates(state: GameState): GameState {
 
 function ticketFromNow(now: number): string {
   return `CASE-${String(now % 10_000).padStart(4, "0")}`;
+}
+
+function canCompleteCreateAccount(state: GameState): boolean {
+  if (state.chapter !== "create") return false;
+  return evaluateRules(state).some((rule) => rule.id === "create.complete" && rule.status === "passed");
+}
+
+function canFinishRecover(state: GameState): boolean {
+  if (state.chapter !== "recover") return false;
+  const evaluations = new Map(evaluateRules(state).map((rule) => [rule.id, rule.status]));
+  return recoverAccountRules.every((rule) => evaluations.get(rule.id) === "passed");
 }
 
 export function gameReducer(state: GameState, action: GameAction): GameState {
@@ -109,6 +125,8 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       return withRuleUpdates(state);
 
     case "game/completeCreateAccount": {
+      if (!canCompleteCreateAccount(state)) return withRuleUpdates(state);
+
       const ticketNumber = ticketFromNow(action.now);
       return {
         ...state,
@@ -145,6 +163,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     }
 
     case "game/finishRecover":
+      if (!canFinishRecover(state)) return state;
       return { ...state, ending: chooseEnding(state) };
 
     default:
