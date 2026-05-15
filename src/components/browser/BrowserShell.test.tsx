@@ -18,4 +18,12 @@ describe("BrowserShell", () => {
     await userEvent.click(screen.getByRole("button", { name: /proxy off/i }));
     expect(dispatch).toHaveBeenCalledWith({ type: "browser/toggleProxy" });
   });
+
+  it("marks the current site tab semantically", () => {
+    const dispatch = vi.fn<(action: GameAction) => void>();
+    render(<BrowserShell state={createInitialState()} dispatch={dispatch} />);
+
+    expect(screen.getByRole("button", { name: "CloudyAI" })).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("button", { name: "sms.local" })).not.toHaveAttribute("aria-current");
+  });
 });

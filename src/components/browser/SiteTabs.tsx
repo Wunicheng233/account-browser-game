@@ -18,16 +18,21 @@ const SITE_LABELS: Record<SiteId, string> = {
 export function SiteTabs({ state, dispatch }: SiteTabsProps) {
   return (
     <nav className="site-tabs" aria-label="Sites">
-      {state.browser.openTabs.map((site) => (
-        <button
-          type="button"
-          key={site}
-          className={site === state.browser.currentUrl ? "tab active" : "tab"}
-          onClick={() => dispatch({ type: "browser/navigate", site })}
-        >
-          {SITE_LABELS[site]}
-        </button>
-      ))}
+      {state.browser.openTabs.map((site) => {
+        const isActive = site === state.browser.currentUrl;
+
+        return (
+          <button
+            type="button"
+            key={site}
+            className={isActive ? "tab active" : "tab"}
+            aria-current={isActive ? "page" : undefined}
+            onClick={() => dispatch({ type: "browser/navigate", site })}
+          >
+            {SITE_LABELS[site]}
+          </button>
+        );
+      })}
     </nav>
   );
 }
