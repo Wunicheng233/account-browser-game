@@ -1,5 +1,5 @@
-import { SAVE_VERSION } from "./constants";
-import type { Chapter, EndingId, GameState } from "./types";
+import { SAVE_VERSION, SUPPORTED_REGIONS } from "./constants";
+import type { Chapter, EndingId, GameState, SupportedRegion } from "./types";
 
 export const SAVE_KEY = "account-browser-save";
 
@@ -38,6 +38,21 @@ function hasStringFields(value: Record<string, unknown>, fields: string[]): bool
   return fields.every((field) => isString(value[field]));
 }
 
+function isSupportedRegion(value: unknown): value is SupportedRegion {
+  return isString(value) && SUPPORTED_REGIONS.includes(value as SupportedRegion);
+}
+
+function isValidIdentityCard(value: unknown): boolean {
+  if (!isObject(value)) return false;
+
+  return (
+    isString(value.name) &&
+    isString(value.birthday) &&
+    isString(value.identityNumber) &&
+    isSupportedRegion(value.region)
+  );
+}
+
 function isValidProfile(value: unknown): boolean {
   if (!isObject(value)) return false;
 
@@ -56,7 +71,7 @@ function isValidProfile(value: unknown): boolean {
       "ticketNumber",
       "finalIdentityPhrase",
     ]) &&
-    (value.identityCard === null || isObject(value.identityCard))
+    (value.identityCard === null || isValidIdentityCard(value.identityCard))
   );
 }
 
@@ -96,7 +111,8 @@ function isValidHistory(value: unknown): boolean {
     isString(value.suspensionReason) &&
     isStringOrNull(value.firstAppealLetter) &&
     isStringOrNull(value.generatedTicketNumber) &&
-    Array.isArray(value.generatedIdentityCards)
+    Array.isArray(value.generatedIdentityCards) &&
+    value.generatedIdentityCards.every(isValidIdentityCard)
   );
 }
 
