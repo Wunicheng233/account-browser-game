@@ -1,5 +1,5 @@
 import type { RuleDefinition } from "../types";
-import { fail, isEnglishOnly, pass } from "./helpers";
+import { fail, pass } from "./helpers";
 
 function occurrenceCount(text: string, phrase: string): number {
   if (!phrase) return 0;
@@ -144,9 +144,14 @@ export const recoverAccountRules: RuleDefinition[] = [
     unlockAfter: "recover.tone",
     check: ({ profile, history }) => {
       if (history.proxyOnUseCountDuringRegistration <= 3) return pass("Travel explanation not required.");
-      return profile.appealLetter.includes("I was traveling")
+      if (!profile.appealLetter.includes("I was traveling")) {
+        return fail("Appeal letter must include I was traveling.", ["vpn_energy"]);
+      }
+
+      const regionAlreadyMatches = profile.region !== "" && profile.identityCard?.region === profile.region;
+      return regionAlreadyMatches
         ? { status: "passed", message: "Travel explanation accepted but marked as unusually convenient.", riskTags: ["vpn_energy"] }
-        : fail("Appeal letter must include I was traveling.", ["vpn_energy"]);
+        : pass("Travel explanation accepted but marked as unusually convenient.");
     },
   },
   {

@@ -1,3 +1,4 @@
+import { evaluateRules } from "./ruleEngine";
 import type { EndingId, GameState } from "./types";
 
 export interface EndingDefinition {
@@ -40,7 +41,16 @@ export const ENDINGS: Record<EndingId, EndingDefinition> = {
   },
 };
 
+function recoveryRulesSatisfied(state: GameState): boolean {
+  const recoveryEvaluations = evaluateRules(state).filter((rule) => rule.id.startsWith("recover."));
+  return recoveryEvaluations.length > 0 && recoveryEvaluations.every((rule) => rule.status === "passed");
+}
+
 export function chooseEnding(state: GameState): EndingId {
+  if (!recoveryRulesSatisfied(state)) {
+    return "appeal_pending";
+  }
+
   const tags = new Set(state.riskTags);
 
   if (tags.has("identity_loop") && tags.has("region_mismatch")) {

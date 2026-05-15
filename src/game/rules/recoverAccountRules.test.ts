@@ -49,4 +49,72 @@ describe("recover account rules", () => {
 
     expect(byId["recover.noIdentityDigits"].check(state).status).toBe("failed");
   });
+
+  it("requires a travel explanation after repeated proxy use", () => {
+    const state = makeState({
+      chapter: "recover",
+      profile: { appealLetter: "Dear Safeguards Team, unsupported location signal. thank you" },
+      history: { proxyOnUseCountDuringRegistration: 4 },
+    });
+
+    expect(byId["recover.traveling"].check(state)).toMatchObject({
+      status: "failed",
+      riskTags: ["vpn_energy"],
+    });
+  });
+
+  it("only tags convenient travel explanations when identity region already matches", () => {
+    const matched = makeState({
+      chapter: "recover",
+      profile: {
+        region: "United States",
+        appealLetter: "Dear Safeguards Team, I was traveling. thank you",
+        identityCard: {
+          name: "Ordinary User",
+          birthday: "1990-01-01",
+          region: "United States",
+          identityNumber: "ID-789000",
+        },
+      },
+      history: { proxyOnUseCountDuringRegistration: 4 },
+    });
+
+    expect(byId["recover.traveling"].check(matched)).toMatchObject({
+      status: "passed",
+      riskTags: ["vpn_energy"],
+    });
+
+    const mismatched = makeState({
+      chapter: "recover",
+      profile: {
+        region: "United States",
+        appealLetter: "Dear Safeguards Team, I was traveling. thank you",
+        identityCard: {
+          name: "Ordinary User",
+          birthday: "1990-01-01",
+          region: "Canada",
+          identityNumber: "ID-789000",
+        },
+      },
+      history: { proxyOnUseCountDuringRegistration: 4 },
+    });
+
+    expect(byId["recover.traveling"].check(mismatched)).toEqual({
+      status: "passed",
+      message: "Travel explanation accepted but marked as unusually convenient.",
+    });
+  });
+
+  it("does not require or tag travel explanations for limited proxy use", () => {
+    const state = makeState({
+      chapter: "recover",
+      profile: { appealLetter: "Dear Safeguards Team, unsupported location signal. thank you" },
+      history: { proxyOnUseCountDuringRegistration: 3 },
+    });
+
+    expect(byId["recover.traveling"].check(state)).toEqual({
+      status: "passed",
+      message: "Travel explanation not required.",
+    });
+  });
 });
