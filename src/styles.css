@@ -194,6 +194,13 @@ button {
   background: white;
 }
 
+.ending-screen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
 @media (max-width: 900px) {
   .game-layout {
     grid-template-columns: 1fr;

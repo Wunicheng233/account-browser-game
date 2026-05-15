@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { BrowserShell } from "./components/browser/BrowserShell";
+import { EndingView } from "./components/endings/EndingView";
 import { createInitialState } from "./game/initialState";
 import { loadGame, saveGame } from "./game/persistence";
 import { gameReducer } from "./game/reducer";
@@ -10,6 +11,10 @@ export function App() {
   useEffect(() => {
     saveGame(state);
   }, [state]);
+
+  if (state.ending) {
+    return <EndingView endingId={state.ending} />;
+  }
 
   return (
     <main className="app-shell">
