@@ -2,8 +2,9 @@ import { REGION_TIMEZONE } from "./constants";
 import { chooseEnding } from "./endings";
 import { collectRiskTags, evaluateRules, unlockNextRuleIds } from "./ruleEngine";
 import { recoverAccountRules } from "./rules/recoverAccountRules";
+import { resolveAddressInput } from "./search";
 import { generateSmsCode } from "./sms";
-import type { GameState, IdentityCard, Profile, SiteId, SupportedRegion } from "./types";
+import type { GameState, IdentityCard, PageId, Profile, SiteId, SupportedRegion } from "./types";
 
 type StringProfileField = {
   [Field in keyof Profile]: Profile[Field] extends string ? Field : never;
@@ -12,6 +13,8 @@ type StringProfileField = {
 export type GameAction =
   | { type: "profile/update"; field: StringProfileField; value: string }
   | { type: "browser/navigate"; site: SiteId }
+  | { type: "browser/submitAddress"; value: string }
+  | { type: "browser/loadComplete" }
   | { type: "browser/back" }
   | { type: "browser/toggleProxy" }
   | { type: "sms/refresh"; seed: number; now: number }
@@ -41,6 +44,20 @@ function canFinishRecover(state: GameState): boolean {
   return recoverAccountRules.every((rule) => evaluations.get(rule.id) === "passed");
 }
 
+function navigateBrowser(state: GameState, currentUrl: PageId, addressText: string, searchQuery: string): GameState {
+  return {
+    ...state,
+    browser: {
+      ...state.browser,
+      currentUrl,
+      addressText,
+      searchQuery,
+      isLoading: true,
+      history: [...state.browser.history, state.browser.currentUrl],
+    },
+  };
+}
+
 export function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case "profile/update": {
@@ -58,12 +75,23 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     }
 
     case "browser/navigate":
+      return navigateBrowser(state, action.site, action.site, "");
+
+    case "browser/submitAddress": {
+      const value = action.value.trim();
+      const resolution = resolveAddressInput(value);
+      if (resolution.type === "site") {
+        return navigateBrowser(state, resolution.site, resolution.site, "");
+      }
+      return navigateBrowser(state, "search.local", value, value);
+    }
+
+    case "browser/loadComplete":
       return {
         ...state,
         browser: {
           ...state.browser,
-          currentUrl: action.site,
-          history: [...state.browser.history, state.browser.currentUrl],
+          isLoading: false,
         },
       };
 
@@ -75,6 +103,8 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         browser: {
           ...state.browser,
           currentUrl: previous,
+          addressText: previous,
+          isLoading: true,
           history: state.browser.history.slice(0, -1),
         },
       };
@@ -96,6 +126,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         browser: {
           ...state.browser,
           proxyEnabled,
+          isLoading: true,
           timezoneReport: {
             region,
             timezone: REGION_TIMEZONE[region],
@@ -150,6 +181,9 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         browser: {
           ...state.browser,
           currentUrl: "cloudyai.signup.fake",
+          addressText: "cloudyai.signup.fake",
+          searchQuery: "",
+          isLoading: true,
           mailboxMessages: [
             ...state.browser.mailboxMessages,
             {

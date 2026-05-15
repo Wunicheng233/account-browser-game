@@ -40,13 +40,13 @@ export const recoverAccountRules: RuleDefinition[] = [
     id: "recover.ticketFromMailbox",
     chapter: "recover",
     title: "Ticket number",
-    description: "Ticket number must come from the latest recovery email.",
+    description: "Ticket number must come from the latest recovery email. Search recovery mailbox to find it.",
     unlockAfter: "recover.reasonOnce",
     check: ({ profile, browser }) => {
       const latestTicket = [...browser.mailboxMessages].reverse().find((message) => message.ticketNumber)?.ticketNumber;
       return latestTicket && profile.ticketNumber === latestTicket
         ? pass("Ticket number accepted.")
-        : fail("Ticket number must match the latest recovery email.");
+        : fail("Search recovery mailbox, then copy the latest ticket number.");
     },
   },
   {
@@ -57,7 +57,7 @@ export const recoverAccountRules: RuleDefinition[] = [
     unlockAfter: "recover.ticketFromMailbox",
     check: ({ profile, browser }) => {
       const latest = [...browser.mailboxMessages].reverse().find((message) => message.ticketNumber);
-      if (!latest || !latest.ticketNumber) return fail("Open mailbox.local to receive a ticket.");
+      if (!latest || !latest.ticketNumber) return fail("Search recovery mailbox to receive a ticket.");
       const includesTicket = profile.appealLetter.includes(latest.ticketNumber);
       const includesGreeting = profile.appealLetter.includes(latest.greetingPhrase);
       return includesTicket && !includesGreeting

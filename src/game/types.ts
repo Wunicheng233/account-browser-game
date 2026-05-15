@@ -7,6 +7,8 @@ export type SiteId =
   | "mailbox.local"
   | "timezone-checker.net";
 
+export type PageId = SiteId | "search.local";
+
 export type SupportedRegion = "United States" | "Canada" | "United Kingdom" | "Australia" | "Taiwan";
 
 export type RiskTag =
@@ -58,10 +60,13 @@ export interface Profile {
 }
 
 export interface BrowserState {
-  currentUrl: SiteId;
-  history: SiteId[];
+  currentUrl: PageId;
+  addressText: string;
+  history: PageId[];
   proxyEnabled: boolean;
   openTabs: SiteId[];
+  searchQuery: string;
+  isLoading: boolean;
   currentSmsCode: string;
   smsRequiredTotal: number;
   smsRefreshAt: number;

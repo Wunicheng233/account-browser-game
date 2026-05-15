@@ -108,6 +108,32 @@ describe("gameReducer", () => {
     expect(next.history.proxyOnUseCountDuringRegistration).toBe(1);
   });
 
+  it("submits address searches to a search results page with loading", () => {
+    const state = makeState();
+    const next = gameReducer(state, { type: "browser/submitAddress", value: "verification code" });
+
+    expect(next.browser.currentUrl).toBe("search.local");
+    expect(next.browser.addressText).toBe("verification code");
+    expect(next.browser.searchQuery).toBe("verification code");
+    expect(next.browser.isLoading).toBe(true);
+  });
+
+  it("navigates directly to known addresses with loading", () => {
+    const state = makeState();
+    const next = gameReducer(state, { type: "browser/submitAddress", value: "sms.local" });
+
+    expect(next.browser.currentUrl).toBe("sms.local");
+    expect(next.browser.addressText).toBe("sms.local");
+    expect(next.browser.isLoading).toBe(true);
+  });
+
+  it("can complete browser loading", () => {
+    const state = makeState({ browser: { isLoading: true } });
+    const next = gameReducer(state, { type: "browser/loadComplete" });
+
+    expect(next.browser.isLoading).toBe(false);
+  });
+
   it("transitions valid completed create state to recover chapter with a mailbox ticket", () => {
     const state = makeAllUnlockedValidCreateState();
     const next = gameReducer(state, { type: "game/completeCreateAccount", now: 123 });

@@ -101,4 +101,14 @@ describe("create account rules", () => {
       message: "Too similar to globaltraveler: 100%.",
     });
   });
+
+  it("requires a non-empty username before checking originality", () => {
+    const state = makeAllUnlockedValidCreateState();
+    state.profile.username = "";
+
+    expect(byId["create.usernameSimilarity"].check(state)).toMatchObject({
+      status: "failed",
+      message: "Username cannot be empty.",
+    });
+  });
 });

@@ -12,7 +12,21 @@ describe("playability", () => {
 
     await userEvent.click(screen.getByRole("button", { name: /proxy off/i }));
 
-    expect(screen.getByRole("heading", { name: /cloudyai account/i })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: /cloudyai account/i })).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
+  });
+
+  it("lets a player search for helper sites instead of using fixed URL buttons", async () => {
+    localStorage.clear();
+    render(<App />);
+
+    const address = screen.getByLabelText("Search or enter address");
+    await userEvent.clear(address);
+    await userEvent.type(address, "verification code{Enter}");
+
+    expect(await screen.findByRole("heading", { name: /search results/i })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: /open sms local center/i }));
+
+    expect(await screen.findByRole("heading", { name: /sms local center/i })).toBeInTheDocument();
   });
 });

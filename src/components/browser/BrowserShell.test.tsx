@@ -12,18 +12,20 @@ describe("BrowserShell", () => {
 
     expect(screen.getByDisplayValue("cloudyai.signup.fake")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /proxy off/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /sms.local/i })).toBeInTheDocument();
     expect(screen.getByText("Valid email")).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: /proxy off/i }));
     expect(dispatch).toHaveBeenCalledWith({ type: "browser/toggleProxy" });
   });
 
-  it("marks the current site tab semantically", () => {
+  it("submits typed searches from the address bar", async () => {
     const dispatch = vi.fn<(action: GameAction) => void>();
     render(<BrowserShell state={createInitialState()} dispatch={dispatch} />);
 
-    expect(screen.getByRole("button", { name: "CloudyAI" })).toHaveAttribute("aria-current", "page");
-    expect(screen.getByRole("button", { name: "sms.local" })).not.toHaveAttribute("aria-current");
+    const address = screen.getByLabelText("Search or enter address");
+    await userEvent.clear(address);
+    await userEvent.type(address, "verification code{Enter}");
+
+    expect(dispatch).toHaveBeenCalledWith({ type: "browser/submitAddress", value: "verification code" });
   });
 });

@@ -1,5 +1,5 @@
 import { DEFAULT_TABS, SAVE_VERSION, SUPPORTED_REGIONS } from "./constants";
-import type { Chapter, EndingId, GameState, SiteId, SupportedRegion } from "./types";
+import type { Chapter, EndingId, GameState, PageId, SiteId, SupportedRegion } from "./types";
 
 export const SAVE_KEY = "account-browser-save";
 
@@ -44,6 +44,10 @@ function isSupportedRegion(value: unknown): value is SupportedRegion {
 
 function isSiteId(value: unknown): value is SiteId {
   return isString(value) && DEFAULT_TABS.includes(value as SiteId);
+}
+
+function isPageId(value: unknown): value is PageId {
+  return value === "search.local" || isSiteId(value);
 }
 
 function isValidIdentityCard(value: unknown): boolean {
@@ -102,12 +106,15 @@ function isValidBrowser(value: unknown): boolean {
   if (!isObject(value)) return false;
 
   return (
-    isSiteId(value.currentUrl) &&
+    isPageId(value.currentUrl) &&
+    isString(value.addressText) &&
     Array.isArray(value.history) &&
-    value.history.every(isSiteId) &&
+    value.history.every(isPageId) &&
     typeof value.proxyEnabled === "boolean" &&
     Array.isArray(value.openTabs) &&
     value.openTabs.every(isSiteId) &&
+    isString(value.searchQuery) &&
+    typeof value.isLoading === "boolean" &&
     isString(value.currentSmsCode) &&
     isNumber(value.smsRequiredTotal) &&
     isNumber(value.smsRefreshAt) &&

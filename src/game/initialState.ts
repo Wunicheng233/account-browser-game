@@ -27,9 +27,12 @@ export function createInitialState(now = Date.now()): GameState {
     },
     browser: {
       currentUrl: "cloudyai.signup.fake",
+      addressText: "cloudyai.signup.fake",
       history: [],
       proxyEnabled: false,
       openTabs: [...DEFAULT_TABS],
+      searchQuery: "",
+      isLoading: false,
       currentSmsCode: "482739",
       smsRequiredTotal: 33,
       smsRefreshAt: now + 30_000,

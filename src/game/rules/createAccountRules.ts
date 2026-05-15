@@ -68,6 +68,7 @@ export const createAccountRules: RuleDefinition[] = [
     description: "Username must not be taken, and similarity to taken usernames must be below 70%.",
     unlockAfter: "create.englishOnly",
     check: ({ profile }) => {
+      if (profile.username.trim() === "") return fail("Username cannot be empty.");
       const similarity = scoreUsernameSimilarity(profile.username);
       return !similarity.blocked
         ? pass("Username is sufficiently unlike known people.")
@@ -120,12 +121,12 @@ export const createAccountRules: RuleDefinition[] = [
     id: "create.smsMatches",
     chapter: "create",
     title: "Current SMS code",
-    description: "SMS code must match the current 6-digit code shown on sms.local.",
+    description: "SMS code must match the current 6-digit code. Search verification code to find it.",
     unlockAfter: "create.phoneRegion",
     check: ({ profile, browser }) =>
       profile.smsCode === browser.currentSmsCode
         ? pass("Verification code accepted for now.")
-        : fail("Verification code does not match the current SMS code.", ["verification_chaser"]),
+        : fail("Search verification code, then enter the current SMS code.", ["verification_chaser"]),
   },
   {
     id: "create.smsDigitSum",
@@ -208,20 +209,20 @@ export const createAccountRules: RuleDefinition[] = [
     id: "create.timezone",
     chapter: "create",
     title: "Timezone match",
-    description: "Timezone shown on timezone-checker.net must match the account region.",
+    description: "Timezone report must match the account region. Search timezone report to find it.",
     unlockAfter: "create.romanizedNeutrality",
     check: (context) =>
       timezoneMatchesRegion(context)
         ? pass("Time agrees with geography.")
-        : fail("Timezone does not match account region.", ["region_mismatch"]),
+        : fail("Search timezone report, then make the report match account region.", ["region_mismatch"]),
   },
   {
     id: "create.identityGenerated",
     chapter: "create",
     title: "Identity card",
-    description: "A fictional identity card must be generated on identity.gov.fake.",
+    description: "A fictional identity card must be generated. Search acceptable identity to find it.",
     unlockAfter: "create.timezone",
-    check: ({ profile }) => (profile.identityCard ? pass("Identity artifact generated.") : fail("Generate a fictional identity card.")),
+    check: ({ profile }) => (profile.identityCard ? pass("Identity artifact generated.") : fail("Search acceptable identity, then generate a fictional identity card.")),
   },
   {
     id: "create.identityRegion",

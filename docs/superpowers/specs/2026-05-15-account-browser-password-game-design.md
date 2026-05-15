@@ -54,13 +54,24 @@ The game looks like a small fictional browser. It does not access real websites 
 The browser shell contains:
 
 - Back button.
-- Address bar.
+- Search/address bar.
+- Search results page for discoverable in-game websites.
 - Proxy ON/OFF switch.
-- Site tabs.
 - Main page viewport.
 - Persistent rule and status panel.
 
+The browser should not expose every website as fixed navigation. Players discover helper sites by searching phrases hinted by rules. Direct known addresses may still work, but the intended flow is:
+
+1. A rule hints a search phrase, such as `verification code`, `acceptable identity`, `recovery mailbox`, or `timezone report`.
+2. The player enters that phrase in the search/address bar.
+3. A fictional search results page lists matching in-game sites.
+4. Opening a result navigates to the selected site.
+
+The search index is data-driven so later versions can add puzzle sites, dead ends, and easter egg pages without changing the browser shell.
+
 The proxy is an environment mechanic, not a displayed rule. Some sites only load when Proxy is ON; others only load when Proxy is OFF. The rule list should not say which proxy state each site needs. Players discover it through site error pages.
+
+Navigation and proxy changes should show a short loading state with a spinner before rendering the result or error page. The loading state is part of the joke: the browser performs a tiny compliance ritual before deciding whether the player exists.
 
 Example site errors:
 
@@ -144,7 +155,7 @@ The first version should include 32 main rules.
 6. Recovery email must be valid and use a different domain from the main email.
 7. Account region must be a supported region.
 8. Phone country code must match the account region.
-9. SMS code must match the current 6-digit code shown on `sms.local`.
+9. SMS code must match the current 6-digit code. The rule should hint that the player can search `verification code`.
 10. SMS code digits must sum to the current required total, such as 25.
 11. Username must include any two consecutive digits from the current SMS code.
 12. Password must include one sponsor name: `Gloogle`, `CloudyAI`, or `PearHub`.
@@ -152,8 +163,8 @@ The first version should include 32 main rules.
 14. Registration statement must include `ordinary user`.
 15. Registration statement must not include `need`, `urgent`, `VPN`, `proxy`, or `mainland`.
 16. Registration statement must include one approved romanized neutrality word: `nihao`, `xiexie`, or `meiyou`.
-17. Timezone shown on `timezone-checker.net` must match the account region.
-18. A fictional identity card must be generated on `identity.gov.fake`.
+17. Timezone report must match the account region. The rule should hint that the player can search `timezone report`.
+18. A fictional identity card must be generated. The rule should hint that the player can search `acceptable identity`.
 19. Identity card region must match the account region.
 20. All unlocked Create Account rules must pass. The account is created, then immediately suspended.
 
@@ -161,7 +172,7 @@ The first version should include 32 main rules.
 
 21. Appeal letter must start with `Dear Safeguards Team,`.
 22. Suspension reason phrase must appear in the appeal letter exactly once.
-23. Ticket number must come from the latest recovery email in `mailbox.local`.
+23. Ticket number must come from the latest recovery email. The rule should hint that the player can search `recovery mailbox`.
 24. Appeal letter must include the ticket number but not include the mailbox greeting phrase.
 25. Appeal letter must deny creating multiple accounts while the recovery email remains present as a backup identity.
 26. Appeal letter must contain exactly as many commas as the number of account region changes made during registration.

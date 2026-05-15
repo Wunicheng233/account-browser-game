@@ -25,4 +25,28 @@ describe("SiteViewport", () => {
 
     expect(screen.getByRole("heading", { name: /cloudyai account/i })).toBeInTheDocument();
   });
+
+  it("shows a loading state before rendering the target page", () => {
+    render(
+      <SiteViewport
+        state={makeState({ browser: { currentUrl: "sms.local", isLoading: true } })}
+        dispatch={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText("Loading secure route")).toBeInTheDocument();
+  });
+
+  it("renders search results for a submitted query", async () => {
+    const dispatch = vi.fn();
+    render(
+      <SiteViewport
+        state={makeState({ browser: { currentUrl: "search.local", searchQuery: "verification code" } })}
+        dispatch={dispatch}
+      />,
+    );
+
+    expect(screen.getByRole("heading", { name: /search results/i })).toBeInTheDocument();
+    expect(screen.getByText("SMS Local Center")).toBeInTheDocument();
+  });
 });

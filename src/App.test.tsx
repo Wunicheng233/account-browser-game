@@ -17,6 +17,7 @@ describe("App", () => {
       browser: {
         ...state.browser,
         currentUrl: "sms.local",
+        addressText: "sms.local",
         proxyEnabled: true,
       },
     });
