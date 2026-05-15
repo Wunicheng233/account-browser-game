@@ -17,6 +17,20 @@ describe("scoreUsernameSimilarity", () => {
     expect(result.blocked).toBe(true);
   });
 
+  it("normalizes taken usernames before comparison", () => {
+    const result = scoreUsernameSimilarity("alexx");
+
+    expect(result.closest).toBe("alex2026");
+    expect(result.blocked).toBe(true);
+  });
+
+  it("allows empty normalized usernames", () => {
+    const result = scoreUsernameSimilarity("2026...___");
+
+    expect(result.blocked).toBe(false);
+    expect(result.score).toBe(0);
+  });
+
   it("allows unrelated usernames", () => {
     const result = scoreUsernameSimilarity("harmlessdesk42");
 
