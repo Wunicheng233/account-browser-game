@@ -91,7 +91,7 @@ Generated card fields:
 - Region.
 - Identity number.
 
-The card becomes evidence in the appeal chapter and creates rule conflicts around region, birthday, and identity number digits.
+The card becomes evidence in the appeal chapter and creates rule conflicts around region, birthday, and whether the player has pasted the full identity number.
 
 ### `mailbox.local`
 
@@ -166,7 +166,7 @@ The first version should include 32 main rules.
 25. Appeal letter must deny creating multiple accounts while the recovery email remains present as a backup identity.
 26. Appeal letter must contain exactly as many commas as the number of account region changes made during registration.
 27. Appeal letter must include the first successfully used SMS code.
-28. Appeal letter must not contain any digit from the fictional identity number.
+28. Appeal letter must not contain the full fictional identity number.
 29. Identity card birthday must match account birthday.
 30. Appeal tone must be polite but not desperate: `thank you` appears exactly once and exclamation marks are not allowed.
 31. If Proxy ON was used more than three times during registration, the appeal letter must include `I was traveling`; if the identity card region already matches the account region, this adds a risk tag.
