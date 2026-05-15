@@ -1,6 +1,7 @@
 import type { ChangeEvent, Dispatch } from "react";
 import type { GameAction } from "../../game/reducer";
 import type { GameState } from "../../game/types";
+import { scoreUsernameSimilarity } from "../../game/usernameSimilarity";
 
 interface SiteProps {
   state: GameState;
@@ -18,6 +19,13 @@ function update(dispatch: Dispatch<GameAction>, field: ProfileUpdateField) {
 export function CloudySignupSite({ state, dispatch }: SiteProps) {
   const profile = state.profile;
   const isRecover = state.chapter === "recover";
+  const usernameSimilarity = scoreUsernameSimilarity(profile.username);
+  const usernameHint =
+    profile.username.trim() === ""
+      ? null
+      : usernameSimilarity.blocked
+        ? `Too similar to ${usernameSimilarity.closest}: ${usernameSimilarity.score}%.`
+        : `Closest taken username: ${usernameSimilarity.closest} (${usernameSimilarity.score}%).`;
 
   return (
     <div className="field-stack">
@@ -32,7 +40,21 @@ export function CloudySignupSite({ state, dispatch }: SiteProps) {
 
       <div className="form-grid">
         <input className="field" aria-label="Email" placeholder="Email" value={profile.email} onChange={update(dispatch, "email")} />
-        <input className="field" aria-label="Username" placeholder="Username" value={profile.username} onChange={update(dispatch, "username")} />
+        <div className="field-with-hint">
+          <input
+            className="field"
+            aria-describedby={usernameHint ? "username-similarity" : undefined}
+            aria-label="Username"
+            placeholder="Username"
+            value={profile.username}
+            onChange={update(dispatch, "username")}
+          />
+          {usernameHint ? (
+            <p id="username-similarity" className={`field-hint${usernameSimilarity.blocked ? " warning" : ""}`}>
+              {usernameHint}
+            </p>
+          ) : null}
+        </div>
         <input className="field" aria-label="Password" placeholder="Password" value={profile.password} onChange={update(dispatch, "password")} />
         <select className="field" aria-label="Account region" value={profile.region} onChange={update(dispatch, "region")}>
           <option value="">Choose region</option>

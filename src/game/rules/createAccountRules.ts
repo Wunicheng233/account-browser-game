@@ -15,6 +15,7 @@ import {
   statementHasRomanizedWord,
   timezoneMatchesRegion,
 } from "./helpers";
+import { scoreUsernameSimilarity } from "../usernameSimilarity";
 
 function allPriorUnlockedCreateRulesPass(context: RuleContext): boolean {
   return createAccountRules
@@ -66,10 +67,12 @@ export const createAccountRules: RuleDefinition[] = [
     title: "Username originality",
     description: "Username must not be taken, and similarity to taken usernames must be below 70%.",
     unlockAfter: "create.englishOnly",
-    check: ({ profile }) =>
-      createChecks.usernameAvailable(profile.username)
+    check: ({ profile }) => {
+      const similarity = scoreUsernameSimilarity(profile.username);
+      return !similarity.blocked
         ? pass("Username is sufficiently unlike known people.")
-        : fail("Username is too similar to an existing account.", ["too_determined"]),
+        : fail(`Too similar to ${similarity.closest}: ${similarity.score}%.`, ["too_determined"]);
+    },
   },
   {
     id: "create.age",

@@ -10,8 +10,8 @@ function commaCount(text: string): number {
   return [...text].filter((char) => char === ",").length;
 }
 
-function identityDigits(identityNumber: string): string[] {
-  return [...new Set(identityNumber.replace(/\D/g, "").split(""))].filter(Boolean);
+function includesIdentityNumber(text: string, identityNumber: string): boolean {
+  return identityNumber.trim() !== "" && text.toLowerCase().includes(identityNumber.toLowerCase());
 }
 
 export const recoverAccountRules: RuleDefinition[] = [
@@ -101,15 +101,14 @@ export const recoverAccountRules: RuleDefinition[] = [
   {
     id: "recover.noIdentityDigits",
     chapter: "recover",
-    title: "No identity digits",
-    description: "Appeal letter must not contain any digit from the fictional identity number.",
+    title: "No pasted identity",
+    description: "Appeal letter must not contain the full fictional identity number.",
     unlockAfter: "recover.firstSmsCode",
     check: ({ profile }) => {
       if (!profile.identityCard) return fail("Generate a fictional identity card first.");
-      const blockedDigits = identityDigits(profile.identityCard.identityNumber);
-      return blockedDigits.some((digit) => profile.appealLetter.includes(digit))
-        ? fail("Appeal letter contains a digit from the identity number.", ["identity_loop"])
-        : pass("Identity digits safely absent.");
+      return includesIdentityNumber(profile.appealLetter, profile.identityCard.identityNumber)
+        ? fail("Appeal letter contains the full identity number.", ["identity_loop"])
+        : pass("Identity number safely absent.");
     },
   },
   {

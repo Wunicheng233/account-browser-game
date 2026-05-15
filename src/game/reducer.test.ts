@@ -88,6 +88,18 @@ describe("gameReducer", () => {
     expect(next.history.regionChangeCount).toBe(1);
   });
 
+  it("does not rewrite registration region changes during recovery", () => {
+    const state = makeState({
+      chapter: "recover",
+      profile: { region: "United States" },
+      history: { regionChangeCount: 2 },
+    });
+    const next = gameReducer(state, { type: "profile/update", field: "region", value: "Canada" });
+
+    expect(next.profile.region).toBe("Canada");
+    expect(next.history.regionChangeCount).toBe(2);
+  });
+
   it("tracks proxy usage during registration", () => {
     const state = makeState({ chapter: "create", browser: { proxyEnabled: false } });
     const next = gameReducer(state, { type: "browser/toggleProxy" });

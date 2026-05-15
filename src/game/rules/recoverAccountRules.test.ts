@@ -33,11 +33,28 @@ describe("recover account rules", () => {
     expect(byId["recover.regionCommas"].check(state).status).toBe("passed");
   });
 
-  it("blocks digits from the identity number in the appeal letter", () => {
+  it("allows required numeric ticket and SMS evidence without pasting the full identity number", () => {
     const state = makeState({
       chapter: "recover",
       profile: {
-        appealLetter: "Dear Safeguards Team, my number includes 7. thank you",
+        appealLetter: "Dear Safeguards Team, unsupported location signal CASE-0123 482739 thank you",
+        identityCard: {
+          name: "Ordinary User",
+          birthday: "1990-01-01",
+          region: "United States",
+          identityNumber: "FAKE-001907",
+        },
+      },
+    });
+
+    expect(byId["recover.noIdentityDigits"].check(state).status).toBe("passed");
+  });
+
+  it("blocks the full identity number in the appeal letter", () => {
+    const state = makeState({
+      chapter: "recover",
+      profile: {
+        appealLetter: "Dear Safeguards Team, my number is ID-789000. thank you",
         identityCard: {
           name: "Ordinary User",
           birthday: "1990-01-01",

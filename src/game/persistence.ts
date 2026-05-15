@@ -1,5 +1,5 @@
-import { SAVE_VERSION, SUPPORTED_REGIONS } from "./constants";
-import type { Chapter, EndingId, GameState, SupportedRegion } from "./types";
+import { DEFAULT_TABS, SAVE_VERSION, SUPPORTED_REGIONS } from "./constants";
+import type { Chapter, EndingId, GameState, SiteId, SupportedRegion } from "./types";
 
 export const SAVE_KEY = "account-browser-save";
 
@@ -42,6 +42,10 @@ function isSupportedRegion(value: unknown): value is SupportedRegion {
   return isString(value) && SUPPORTED_REGIONS.includes(value as SupportedRegion);
 }
 
+function isSiteId(value: unknown): value is SiteId {
+  return isString(value) && DEFAULT_TABS.includes(value as SiteId);
+}
+
 function isValidIdentityCard(value: unknown): boolean {
   if (!isObject(value)) return false;
 
@@ -75,19 +79,41 @@ function isValidProfile(value: unknown): boolean {
   );
 }
 
+function isValidMailboxMessage(value: unknown): boolean {
+  if (!isObject(value)) return false;
+
+  return (
+    isString(value.id) &&
+    isString(value.subject) &&
+    isString(value.greetingPhrase) &&
+    isString(value.body) &&
+    (value.ticketNumber === undefined || isString(value.ticketNumber)) &&
+    isNumber(value.createdAt)
+  );
+}
+
+function isValidTimezoneReport(value: unknown): boolean {
+  if (!isObject(value)) return false;
+
+  return isSupportedRegion(value.region) && isString(value.timezone) && isString(value.language);
+}
+
 function isValidBrowser(value: unknown): boolean {
   if (!isObject(value)) return false;
 
   return (
-    isString(value.currentUrl) &&
+    isSiteId(value.currentUrl) &&
     Array.isArray(value.history) &&
+    value.history.every(isSiteId) &&
     typeof value.proxyEnabled === "boolean" &&
     Array.isArray(value.openTabs) &&
+    value.openTabs.every(isSiteId) &&
     isString(value.currentSmsCode) &&
     isNumber(value.smsRequiredTotal) &&
     isNumber(value.smsRefreshAt) &&
     Array.isArray(value.mailboxMessages) &&
-    isObject(value.timezoneReport)
+    value.mailboxMessages.every(isValidMailboxMessage) &&
+    isValidTimezoneReport(value.timezoneReport)
   );
 }
 

@@ -91,4 +91,14 @@ describe("create account rules", () => {
 
     expect(byId["create.complete"].check(state).status).toBe("failed");
   });
+
+  it("explains the closest taken username when similarity blocks registration", () => {
+    const state = makeAllUnlockedValidCreateState();
+    state.profile.username = "globaltraveler27";
+
+    expect(byId["create.usernameSimilarity"].check(state)).toMatchObject({
+      status: "failed",
+      message: "Too similar to globaltraveler: 100%.",
+    });
+  });
 });

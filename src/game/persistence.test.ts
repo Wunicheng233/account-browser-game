@@ -63,6 +63,38 @@ describe("persistence", () => {
     expect(loadGame()).toBeNull();
   });
 
+  it("returns null for saved data with unknown browser sites", () => {
+    const state = createInitialState();
+    localStorage.setItem(
+      SAVE_KEY,
+      JSON.stringify({
+        ...state,
+        browser: {
+          ...state.browser,
+          currentUrl: "unknown.example",
+        },
+      }),
+    );
+
+    expect(loadGame()).toBeNull();
+  });
+
+  it("returns null for saved data with malformed mailbox messages", () => {
+    const state = createInitialState();
+    localStorage.setItem(
+      SAVE_KEY,
+      JSON.stringify({
+        ...state,
+        browser: {
+          ...state.browser,
+          mailboxMessages: [{ id: "mail-1" }],
+        },
+      }),
+    );
+
+    expect(loadGame()).toBeNull();
+  });
+
   it("loads saved data with a valid identity card", () => {
     const state = createInitialState();
     const identityCard = {

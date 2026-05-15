@@ -1,4 +1,4 @@
-import type { Dispatch } from "react";
+import { useEffect, type Dispatch } from "react";
 import type { GameAction } from "../../game/reducer";
 import { digitSum } from "../../game/sms";
 import type { GameState } from "../../game/types";
@@ -10,6 +10,16 @@ interface SiteProps {
 
 export function SmsSite({ state, dispatch }: SiteProps) {
   const code = state.browser.currentSmsCode;
+
+  useEffect(() => {
+    const delay = Math.max(0, state.browser.smsRefreshAt - Date.now());
+    const timer = window.setTimeout(() => {
+      const now = Date.now();
+      dispatch({ type: "sms/refresh", seed: now, now });
+    }, delay);
+
+    return () => window.clearTimeout(timer);
+  }, [dispatch, state.browser.smsRefreshAt]);
 
   return (
     <div className="site-card">

@@ -45,7 +45,11 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case "profile/update": {
       const profile = { ...state.profile, [action.field]: action.value };
-      const regionChanged = action.field === "region" && state.profile.region !== "" && state.profile.region !== action.value;
+      const regionChanged =
+        state.chapter === "create" &&
+        action.field === "region" &&
+        state.profile.region !== "" &&
+        state.profile.region !== action.value;
       const history = {
         ...state.history,
         regionChangeCount: state.history.regionChangeCount + (regionChanged ? 1 : 0),
