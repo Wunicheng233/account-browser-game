@@ -28,6 +28,25 @@ describe("persistence", () => {
     expect(loadGame()).toBeNull();
   });
 
+  it("returns null for same-version saved data with malformed nested state", () => {
+    localStorage.setItem(
+      SAVE_KEY,
+      JSON.stringify({
+        saveVersion: 1,
+        chapter: "create",
+        profile: {},
+        browser: {},
+        history: {},
+        unlockedRuleIds: ["create.complete"],
+        riskTags: [],
+        systemLog: [],
+        ending: null,
+      }),
+    );
+
+    expect(loadGame()).toBeNull();
+  });
+
   it("returns null for version mismatch", () => {
     const state = createInitialState();
     localStorage.setItem(SAVE_KEY, JSON.stringify({ ...state, saveVersion: 0 }));
