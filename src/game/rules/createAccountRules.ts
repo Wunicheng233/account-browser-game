@@ -16,6 +16,7 @@ import {
   timezoneMatchesRegion,
 } from "./helpers";
 import { scoreUsernameSimilarity } from "../usernameSimilarity";
+import { digitSum } from "../sms";
 
 function allPriorUnlockedCreateRulesPass(context: RuleContext): boolean {
   return createAccountRules
@@ -132,12 +133,15 @@ export const createAccountRules: RuleDefinition[] = [
     id: "create.smsDigitSum",
     chapter: "create",
     title: "SMS digit sum",
-    description: "SMS code digits must sum to the current required total.",
+    description: "SMS code digits must add up to today's verification target. Check the SMS center.",
     unlockAfter: "create.smsMatches",
-    check: (context) =>
-      createChecks.smsDigitSum(context)
+    check: (context) => {
+      const currentSum = digitSum(context.profile.smsCode);
+      const target = context.browser.smsRequiredTotal;
+      return createChecks.smsDigitSum(context)
         ? pass("Digits add up to compliance.")
-        : fail("SMS code digits do not sum to the required total."),
+        : fail(`Current sum: ${currentSum}, target: ${target}. Keep calculating.`);
+    },
   },
   {
     id: "create.usernameSmsPair",
