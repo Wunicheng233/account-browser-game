@@ -702,6 +702,40 @@ button:disabled {
   margin: 0;
 }
 
+.phone-code-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.phone-code-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  background: var(--surface-muted);
+}
+
+.phone-code-list li.selected {
+  border-color: var(--badge-success-border);
+  background: var(--badge-success-bg);
+}
+
+.phone-code-list strong {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.phone-code-list code {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
 .search-page {
   max-width: 860px;
   margin: 0 auto;
@@ -920,6 +954,11 @@ button:disabled {
   .form-grid,
   .search-result {
     grid-template-columns: 1fr;
+  }
+
+  .phone-code-list li {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
 
   .site-viewport {

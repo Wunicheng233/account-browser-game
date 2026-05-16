@@ -28,6 +28,7 @@ export const REGION_TIMEZONE: Record<SupportedRegion, string> = {
 
 export const DEFAULT_TABS: SiteId[] = [
   "cloudyai.signup.fake",
+  "phone-region.local",
   "sms.local",
   "identity.gov.fake",
   "mailbox.local",

@@ -110,12 +110,12 @@ export const createAccountRules: RuleDefinition[] = [
     id: "create.phoneRegion",
     chapter: "create",
     title: "Phone region",
-    description: "Phone country code must match the account region.",
+    description: "Phone country code must match the account region. Search phone region to find it.",
     unlockAfter: "create.supportedRegion",
     check: ({ profile }) =>
       phoneMatchesRegion(profile.phone, profile.region)
         ? pass("Phone region agrees with account region.")
-        : fail("Phone number does not match account region.", ["region_mismatch"]),
+        : fail("Search phone region, then start the phone number with the matching country code.", ["region_mismatch"]),
   },
   {
     id: "create.smsMatches",

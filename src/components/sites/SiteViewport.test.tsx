@@ -49,4 +49,20 @@ describe("SiteViewport", () => {
     expect(screen.getByRole("heading", { name: /search results/i })).toBeInTheDocument();
     expect(screen.getByText("SMS Local Center")).toBeInTheDocument();
   });
+
+  it("renders a searchable phone region guide", () => {
+    render(
+      <SiteViewport
+        state={makeState({
+          profile: { region: "United Kingdom" },
+          browser: { currentUrl: "phone-region.local", proxyEnabled: true },
+        })}
+        dispatch={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByRole("heading", { name: /phone region guide/i })).toBeInTheDocument();
+    expect(screen.getByText("United Kingdom")).toBeInTheDocument();
+    expect(screen.getByText("+44")).toBeInTheDocument();
+  });
 });

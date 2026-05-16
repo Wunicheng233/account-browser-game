@@ -29,6 +29,13 @@ export const SEARCH_RESULTS: SearchResult[] = [
     keywords: ["sms", "verification", "verification code", "code", "digit sum", "phone"],
   },
   {
+    site: "phone-region.local",
+    title: "Phone Region Guide",
+    url: "phone-region.local",
+    description: "Country calling codes for the regions CloudyAI is willing to recognize today.",
+    keywords: ["phone", "phone region", "country code", "calling code", "phone country code", "region phone"],
+  },
+  {
     site: "identity.gov.fake",
     title: "Department of Acceptable Identity",
     url: "identity.gov.fake",

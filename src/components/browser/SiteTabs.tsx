@@ -9,6 +9,7 @@ interface SiteTabsProps {
 
 const SITE_LABELS: Record<SiteId, string> = {
   "cloudyai.signup.fake": "CloudyAI",
+  "phone-region.local": "phone-region.local",
   "sms.local": "sms.local",
   "identity.gov.fake": "identity.gov.fake",
   "mailbox.local": "mailbox.local",

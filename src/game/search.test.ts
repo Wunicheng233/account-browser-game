@@ -8,6 +8,8 @@ describe("browser search", () => {
 
   it("finds helper websites from rule hint phrases", () => {
     expect(searchSites("verification code")[0]).toMatchObject({ site: "sms.local" });
+    expect(searchSites("phone region")[0]).toMatchObject({ site: "phone-region.local" });
+    expect(searchSites("country code")[0]).toMatchObject({ site: "phone-region.local" });
     expect(searchSites("acceptable identity")[0]).toMatchObject({ site: "identity.gov.fake" });
     expect(searchSites("recovery mailbox")[0]).toMatchObject({ site: "mailbox.local" });
     expect(searchSites("timezone report")[0]).toMatchObject({ site: "timezone-checker.net" });

@@ -2,6 +2,7 @@ export type Chapter = "create" | "recover";
 
 export type SiteId =
   | "cloudyai.signup.fake"
+  | "phone-region.local"
   | "sms.local"
   | "identity.gov.fake"
   | "mailbox.local"
