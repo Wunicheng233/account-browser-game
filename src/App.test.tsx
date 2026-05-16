@@ -44,19 +44,22 @@ describe("App", () => {
   it("shows a story briefing the first time the site opens", () => {
     render(<App />);
 
-    expect(screen.getByRole("dialog", { name: "剧情说明" })).toBeInTheDocument();
-    expect(screen.getByText(/你正在使用一台过分合规的伪浏览器/)).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "代理" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "浏览器" })).toBeInTheDocument();
+    const dialog = screen.getByRole("dialog", { name: "Welcome to CloudyAI" });
+
+    expect(dialog).toBeInTheDocument();
+    expect(screen.getByText(/This is an account browser/)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Address Bar" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Proxy" })).toBeInTheDocument();
+    expect(dialog).not.toHaveTextContent(/[\u4e00-\u9fff]/);
   });
 
   it("remembers when the story briefing has been dismissed", async () => {
     render(<App />);
 
-    await userEvent.click(screen.getByRole("button", { name: "开始被审核" }));
+    await userEvent.click(screen.getByRole("button", { name: "I Am Ready" }));
 
     await waitFor(() => {
-      expect(screen.queryByRole("dialog", { name: "剧情说明" })).not.toBeInTheDocument();
+      expect(screen.queryByRole("dialog", { name: "Welcome to CloudyAI" })).not.toBeInTheDocument();
       expect(localStorage.getItem(INTRO_SEEN_KEY)).toBe("true");
     });
   });
@@ -66,6 +69,6 @@ describe("App", () => {
 
     render(<App />);
 
-    expect(screen.queryByRole("dialog", { name: "剧情说明" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("dialog", { name: "Welcome to CloudyAI" })).not.toBeInTheDocument();
   });
 });

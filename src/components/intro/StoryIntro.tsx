@@ -7,35 +7,44 @@ export function StoryIntro({ onDismiss }: StoryIntroProps) {
     <div className="intro-backdrop">
       <section className="intro-dialog" role="dialog" aria-modal="true" aria-labelledby="story-intro-title">
         <p className="intro-eyebrow">CloudyAI Account Desk</p>
-        <h1 id="story-intro-title">剧情说明</h1>
+        <h1 id="story-intro-title">Welcome to CloudyAI</h1>
         <p className="intro-lede">
-          你正在使用一台过分合规的伪浏览器，尝试注册一个 CloudyAI 账号。系统会像热爱表格的门卫一样逐条审视你，
-          直到它终于批准你，然后立刻怀疑你。
+          This is an account browser with more procedure than the products it imitates. You only want to create an account.
+          The system will inspect you like a safety clerk with a clipboard, one requirement at a time, until it finally approves you,
+          then immediately suspects you.
         </p>
-        <div className="intro-grid" aria-label="玩法和道具">
+        <div className="intro-grid" aria-label="Rules and tools">
           <section>
-            <h2>你正在干什么</h2>
+            <h2>How This Game Works</h2>
             <p>
-              先完成注册，再面对封号后的申诉流程。右侧规则会一条一条冒出来，你要改表单、找证据、处理自相矛盾的要求。
+              Register first, then enjoy the realism of an account that gets suspended right after it wakes up. Fill forms, chase evidence,
+              and negotiate with requirements that keep arguing with themselves.
             </p>
           </section>
           <section>
-            <h2>规则怎么赢</h2>
+            <h2>What Rules Are</h2>
             <p>
-              当前规则通过后，下一个规则才会露面。每条规则都是真的要求，也都带一点官僚系统独有的幽默感。
+              Pass one rule to reveal the next. Every rule is a real requirement, and every requirement has the private sense of humor
+              of an automated safety team.
             </p>
           </section>
           <section>
-            <h2>浏览器</h2>
-            <p>地址栏能打开网址，也能搜索线索。验证码、区号、证件、邮箱工单和时区报告都可能藏在网页里。</p>
+            <h2>Address Bar</h2>
+            <p>
+              This is a real-ish browser. Type a URL or search for clues. Verification codes, phone prefixes, identity paperwork,
+              mailbox tickets, and timezone reports may all be hiding on web pages.
+            </p>
           </section>
           <section>
-            <h2>代理</h2>
-            <p>有些网站需要 Proxy ON 才理你；有些本地服务看到代理就关门。失败页通常比客服更诚实。</p>
+            <h2>Proxy</h2>
+            <p>
+              Some sites only listen when Proxy is ON. Some local services shut the door when they see it. Error pages are usually
+              more honest than support articles.
+            </p>
           </section>
         </div>
         <button type="button" className="primary-button intro-action" onClick={onDismiss} autoFocus>
-          开始被审核
+          I Am Ready
         </button>
       </section>
     </div>
