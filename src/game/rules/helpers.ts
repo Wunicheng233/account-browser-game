@@ -71,7 +71,7 @@ export function timezoneMatchesRegion(context: RuleContext): boolean {
 
 export const createChecks = {
   usernameAvailable: (username: string) => !scoreUsernameSimilarity(username).blocked,
-  smsDigitSum: (context: RuleContext) => digitSum(context.profile.smsCode) === context.browser.smsRequiredTotal,
+  smsDigitSum: (context: RuleContext) => digitSum(context.profile.smsCode) >= context.browser.smsRequiredTotal,
   usernameHasSmsPair: (context: RuleContext) =>
     hasConsecutivePairFromCode(context.profile.username, context.browser.currentSmsCode),
 };

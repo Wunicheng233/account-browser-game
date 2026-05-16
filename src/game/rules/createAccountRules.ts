@@ -133,7 +133,7 @@ export const createAccountRules: RuleDefinition[] = [
     id: "create.smsDigitSum",
     chapter: "create",
     title: "SMS digit sum",
-    description: "SMS code digits must add up to today's verification target. Check the SMS center.",
+    description: "SMS code digits must be at least today's verification target. Check the SMS center.",
     unlockAfter: "create.smsMatches",
     check: (context) => {
       const currentSum = digitSum(context.profile.smsCode);
