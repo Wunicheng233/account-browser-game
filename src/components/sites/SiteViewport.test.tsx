@@ -23,7 +23,8 @@ describe("SiteViewport", () => {
       />,
     );
 
-    expect(screen.getByRole("heading", { name: /cloudyai account/i })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Signup form" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Email")).toBeInTheDocument();
   });
 
   it("shows a loading state before rendering the target page", () => {

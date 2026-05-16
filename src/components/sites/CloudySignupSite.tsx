@@ -29,16 +29,6 @@ export function CloudySignupSite({ state, dispatch }: SiteProps) {
 
   return (
     <div className="field-stack account-site">
-      <header className="site-hero">
-        <p className="site-eyebrow">CloudyAI Identity</p>
-        <h1>{isRecover ? "CloudyAI Account Recovery" : "CloudyAI Account"}</h1>
-        <p>
-          {isRecover
-            ? "Recover your account by proving the account recovered you first."
-            : "Create an account for global productivity."}
-        </p>
-      </header>
-
       <section className="account-card" aria-label={isRecover ? "Recovery form" : "Signup form"}>
         <div className="form-grid">
           <input className="field" aria-label="Email" placeholder="Email" value={profile.email} onChange={update(dispatch, "email")} />

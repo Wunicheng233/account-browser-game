@@ -28,4 +28,14 @@ describe("BrowserShell", () => {
 
     expect(dispatch).toHaveBeenCalledWith({ type: "browser/submitAddress", value: "verification code" });
   });
+
+  it("renders a minimal shell without decorative app chrome", () => {
+    const state = createInitialState();
+    render(<BrowserShell state={{ ...state, browser: { ...state.browser, proxyEnabled: true } }} dispatch={vi.fn()} />);
+
+    expect(screen.queryByLabelText("Workspace navigation")).not.toBeInTheDocument();
+    expect(screen.queryByText("Cloudy Compliance Console")).not.toBeInTheDocument();
+    expect(screen.queryByText("CloudyAI Account")).not.toBeInTheDocument();
+    expect(screen.queryByText("Create an account for global productivity.")).not.toBeInTheDocument();
+  });
 });

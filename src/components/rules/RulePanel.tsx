@@ -8,6 +8,7 @@ interface RulePanelProps {
 export function RulePanel({ state }: RulePanelProps) {
   const rules = evaluateRules(state);
   const passedCount = rules.filter((rule) => rule.status === "passed").length;
+  const visibleRules = rules.filter((rule) => rule.status !== "locked");
 
   return (
     <aside className="rule-panel" aria-label="Rules and status">
@@ -21,7 +22,7 @@ export function RulePanel({ state }: RulePanelProps) {
           <span>{passedCount}/{rules.length}</span>
         </div>
         <ol className="rule-list">
-          {rules.map((rule) => (
+          {visibleRules.map((rule) => (
             <li key={rule.id} className={`rule-item ${rule.status}`}>
               <div className="rule-heading">
                 <strong>{rule.title}</strong>
@@ -32,24 +33,6 @@ export function RulePanel({ state }: RulePanelProps) {
             </li>
           ))}
         </ol>
-      </section>
-      <section className="panel-section">
-        <div className="panel-section-title">
-          <h2>Risk tags</h2>
-        </div>
-        <div className="tag-list">
-          {state.riskTags.length === 0 ? <span className="empty">None yet</span> : state.riskTags.map((tag) => <span key={tag}>{tag}</span>)}
-        </div>
-      </section>
-      <section className="panel-section">
-        <div className="panel-section-title">
-          <h2>System log</h2>
-        </div>
-        <ul className="system-log">
-          {state.systemLog.slice(-6).map((line, index) => (
-            <li key={`${line}-${index}`}>{line}</li>
-          ))}
-        </ul>
       </section>
     </aside>
   );

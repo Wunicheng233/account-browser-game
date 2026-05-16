@@ -12,7 +12,7 @@ describe("playability", () => {
 
     await userEvent.click(screen.getByRole("button", { name: /proxy off/i }));
 
-    expect(await screen.findByRole("heading", { name: /cloudyai account/i })).toBeInTheDocument();
+    expect(await screen.findByRole("region", { name: "Signup form" })).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
   });
 
