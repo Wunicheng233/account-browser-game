@@ -1,4 +1,5 @@
 import { useEffect, useState, type Dispatch, type FormEvent, type KeyboardEvent } from "react";
+import { ArrowLeft, Search, Send, Wifi, WifiOff } from "lucide-react";
 import type { GameAction } from "../../game/reducer";
 import type { GameState } from "../../game/types";
 
@@ -32,11 +33,12 @@ export function Toolbar({ state, dispatch }: ToolbarProps) {
   return (
     <form className="toolbar" onSubmit={submitAddress}>
       <button type="button" className="icon-button" onClick={() => dispatch({ type: "browser/back" })}>
-        Back
+        <ArrowLeft size={18} aria-hidden="true" />
+        <span className="button-label">Back</span>
       </button>
       <label className="address-wrap">
         <span className="address-search-icon" aria-hidden="true">
-          Search
+          <Search size={17} />
         </span>
         <input
           className="address-bar"
@@ -48,10 +50,17 @@ export function Toolbar({ state, dispatch }: ToolbarProps) {
         />
       </label>
       <button type="submit" className="go-button">
-        Go
+        <Send size={16} aria-hidden="true" />
+        <span>Go</span>
       </button>
-      <button type="button" className="proxy-toggle" onClick={() => dispatch({ type: "browser/toggleProxy" })}>
-        Proxy {state.browser.proxyEnabled ? "ON" : "OFF"}
+      <button
+        type="button"
+        className={state.browser.proxyEnabled ? "proxy-toggle active" : "proxy-toggle"}
+        aria-pressed={state.browser.proxyEnabled}
+        onClick={() => dispatch({ type: "browser/toggleProxy" })}
+      >
+        {state.browser.proxyEnabled ? <Wifi size={17} aria-hidden="true" /> : <WifiOff size={17} aria-hidden="true" />}
+        <span>Proxy {state.browser.proxyEnabled ? "ON" : "OFF"}</span>
       </button>
     </form>
   );

@@ -12,9 +12,13 @@ export function SearchResultsSite({ query, dispatch }: SearchResultsSiteProps) {
 
   return (
     <div className="search-page">
-      <div className="search-brand">Gloogle</div>
-      <h1>Search results</h1>
-      <p className="search-summary">Results for {query || "nothing in particular"}</p>
+      <header className="search-header">
+        <div className="search-brand">Gloogle</div>
+        <div>
+          <h1>Search results</h1>
+          <p className="search-summary">Results for {query || "nothing in particular"}</p>
+        </div>
+      </header>
 
       {results.length > 0 ? (
         <ol className="search-results">
