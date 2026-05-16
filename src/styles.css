@@ -83,8 +83,96 @@ button:disabled {
 }
 
 .app-shell {
+  position: relative;
   min-height: 100vh;
   background: var(--bg-primary);
+}
+
+.intro-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(58, 44, 31, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.intro-dialog {
+  display: grid;
+  gap: 18px;
+  width: min(760px, 100%);
+  max-height: min(86vh, 760px);
+  overflow: auto;
+  border: 1px solid rgba(91, 127, 110, 0.22);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  background: var(--bg-secondary);
+  box-shadow: var(--shadow-lg);
+}
+
+.intro-eyebrow {
+  margin: 0;
+  color: var(--accent-primary);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.intro-dialog h1,
+.intro-dialog h2,
+.intro-dialog p {
+  margin: 0;
+}
+
+.intro-dialog h1 {
+  color: var(--text-primary);
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.05;
+}
+
+.intro-lede {
+  max-width: 680px;
+  color: var(--text-body);
+  font-size: 1.02rem;
+  line-height: 1.72;
+}
+
+.intro-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.intro-grid section {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  background: var(--surface-muted);
+}
+
+.intro-grid h2 {
+  color: var(--text-primary);
+  font-size: 0.98rem;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.intro-grid p {
+  color: var(--text-secondary);
+  line-height: 1.58;
+}
+
+.intro-action {
+  justify-self: end;
+  min-width: 148px;
 }
 
 .game-layout {
@@ -733,6 +821,23 @@ button:disabled {
 }
 
 @media (max-width: 620px) {
+  .intro-backdrop {
+    align-items: start;
+    padding: 14px;
+  }
+
+  .intro-dialog {
+    padding: 20px;
+  }
+
+  .intro-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intro-action {
+    justify-self: stretch;
+  }
+
   .toolbar {
     grid-template-columns: auto 1fr;
   }

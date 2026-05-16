@@ -2,9 +2,18 @@ import { DEFAULT_TABS, SAVE_VERSION, SUPPORTED_REGIONS } from "./constants";
 import type { Chapter, EndingId, GameState, PageId, SiteId, SupportedRegion } from "./types";
 
 export const SAVE_KEY = "account-browser-save";
+export const INTRO_SEEN_KEY = "account-browser-intro-seen";
 
 export function saveGame(state: GameState): void {
   localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+}
+
+export function hasSeenIntro(): boolean {
+  return localStorage.getItem(INTRO_SEEN_KEY) === "true";
+}
+
+export function markIntroSeen(): void {
+  localStorage.setItem(INTRO_SEEN_KEY, "true");
 }
 
 function isObject(value: unknown): value is Record<string, unknown> {
