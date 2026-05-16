@@ -18,4 +18,22 @@ describe("RulePanel", () => {
     expect(screen.getByText("Strong password")).toBeInTheDocument();
     expect(screen.queryByText("English only")).not.toBeInTheDocument();
   });
+
+  it("lists unmet rules above passed rules", () => {
+    const { container } = render(
+      <RulePanel
+        state={makeState({
+          unlockedRuleIds: ["create.email", "create.password", "create.englishOnly"],
+          profile: {
+            email: "ordinary@example.com",
+            password: "",
+          },
+        })}
+      />,
+    );
+
+    const titles = [...container.querySelectorAll(".rule-heading strong")].map((node) => node.textContent);
+
+    expect(titles).toEqual(["Strong password", "Valid email", "English only"]);
+  });
 });

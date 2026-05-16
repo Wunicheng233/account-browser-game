@@ -39,17 +39,26 @@ export function evaluateRules(state: GameState): RuleEvaluation[] {
 }
 
 export function unlockNextRuleIds(state: GameState): string[] {
-  const evaluations = evaluateRules(state);
-  const passed = new Set(evaluations.filter((rule) => rule.status === "passed").map((rule) => rule.id));
   const unlocked = new Set(state.unlockedRuleIds);
+  let changed = true;
 
-  for (const rule of allRules) {
-    if (rule.chapter !== state.chapter) continue;
-    if (!rule.unlockAfter) continue;
-    if (passed.has(rule.unlockAfter)) unlocked.add(rule.id);
+  while (changed) {
+    changed = false;
+    const evaluations = evaluateRules({ ...state, unlockedRuleIds: [...unlocked] });
+    const passed = new Set(evaluations.filter((rule) => rule.status === "passed").map((rule) => rule.id));
+
+    for (const rule of allRules) {
+      if (rule.chapter !== state.chapter) continue;
+      if (!rule.unlockAfter) continue;
+      if (!passed.has(rule.unlockAfter)) continue;
+      if (unlocked.has(rule.id)) continue;
+
+      unlocked.add(rule.id);
+      changed = true;
+    }
   }
 
-  return [...unlocked];
+  return allRules.filter((rule) => unlocked.has(rule.id)).map((rule) => rule.id);
 }
 
 export function collectRiskTags(state: GameState): GameState["riskTags"] {

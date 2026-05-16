@@ -8,7 +8,10 @@ interface RulePanelProps {
 export function RulePanel({ state }: RulePanelProps) {
   const rules = evaluateRules(state);
   const passedCount = rules.filter((rule) => rule.status === "passed").length;
-  const visibleRules = rules.filter((rule) => rule.status !== "locked");
+  const visibleRules = [
+    ...rules.filter((rule) => rule.status === "failed"),
+    ...rules.filter((rule) => rule.status === "passed"),
+  ];
 
   return (
     <aside className="rule-panel" aria-label="Rules and status">

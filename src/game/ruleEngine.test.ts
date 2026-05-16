@@ -20,6 +20,23 @@ describe("ruleEngine", () => {
     expect(unlockNextRuleIds(state)).toContain("create.password");
   });
 
+  it("unlocks through already-passing rules until the first unmet rule", () => {
+    const state = makeState({
+      unlockedRuleIds: ["create.email"],
+      profile: {
+        email: "ordinary@example.com",
+        password: "P@sswordCloudyAI27",
+      },
+    });
+
+    expect(unlockNextRuleIds(state)).toEqual([
+      "create.email",
+      "create.password",
+      "create.englishOnly",
+      "create.usernameSimilarity",
+    ]);
+  });
+
   it("collects risk tags from failed unlocked rules", () => {
     const state = makeState({
       unlockedRuleIds: ["create.phoneRegion"],
