@@ -54,7 +54,6 @@ export function CloudySignupSite({ state, dispatch }: SiteProps) {
             <option value="Canada">Canada</option>
             <option value="United Kingdom">United Kingdom</option>
             <option value="Australia">Australia</option>
-            <option value="Taiwan">Taiwan</option>
           </select>
           <input className="field" aria-label="Phone" placeholder="Phone" value={profile.phone} onChange={update(dispatch, "phone")} />
           <input className="field" aria-label="Birthday" type="date" value={profile.birthday} onChange={update(dispatch, "birthday")} />

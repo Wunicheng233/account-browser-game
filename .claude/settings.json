@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm test *)"
+      "Bash(npm test *)",
+      "Bash(curl -s http://localhost:5173/)",
+      "Bash(pkill -f \"vite\")",
+      "Bash(cat)",
+      "Bash(node /tmp/deep_check.ts)",
+      "Bash(curl -sI https://wunicheng233.github.io/account-browser-game/)",
+      "Bash(npx vitest *)"
     ]
   }
 }

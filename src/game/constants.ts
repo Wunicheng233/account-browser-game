@@ -7,7 +7,7 @@ export const SUPPORTED_REGIONS: SupportedRegion[] = [
   "Canada",
   "United Kingdom",
   "Australia",
-  "Taiwan",
+  "China",
 ];
 
 export const REGION_PHONE_PREFIX: Record<SupportedRegion, string> = {
@@ -15,7 +15,7 @@ export const REGION_PHONE_PREFIX: Record<SupportedRegion, string> = {
   Canada: "+1",
   "United Kingdom": "+44",
   Australia: "+61",
-  Taiwan: "+886",
+  China: "+86",
 };
 
 export const REGION_TIMEZONE: Record<SupportedRegion, string> = {
@@ -23,7 +23,7 @@ export const REGION_TIMEZONE: Record<SupportedRegion, string> = {
   Canada: "America/Toronto",
   "United Kingdom": "Europe/London",
   Australia: "Australia/Sydney",
-  Taiwan: "Asia/Taipei",
+  China: "Asia/Shanghai",
 };
 
 export const DEFAULT_TABS: SiteId[] = [

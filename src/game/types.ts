@@ -10,7 +10,7 @@ export type SiteId =
 
 export type PageId = SiteId | "search.local";
 
-export type SupportedRegion = "United States" | "Canada" | "United Kingdom" | "Australia" | "Taiwan";
+export type SupportedRegion = "United States" | "Canada" | "United Kingdom" | "Australia" | "China";
 
 export type RiskTag =
   | "region_mismatch"

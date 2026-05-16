@@ -119,7 +119,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
             ? state.history.proxyOnUseCountDuringRegistration + 1
             : state.history.proxyOnUseCountDuringRegistration,
       };
-      const region: SupportedRegion = proxyEnabled ? "United States" : "Taiwan";
+      const region: SupportedRegion = proxyEnabled ? "United States" : "China";
       return withRuleUpdates({
         ...state,
         history,

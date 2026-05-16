@@ -35,7 +35,7 @@ describe("rule copy tone", () => {
         "create.timezone",
         makeState({
           profile: { region: "United States" },
-          browser: { timezoneReport: { region: "Taiwan", timezone: "Asia/Taipei", language: "en-US" } },
+          browser: { timezoneReport: { region: "China", timezone: "Asia/Shanghai", language: "en-US" } },
         }),
       ),
       ruleMessage("create.identityGenerated", makeState({ profile: { identityCard: null } })),
