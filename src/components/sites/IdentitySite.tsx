@@ -26,9 +26,9 @@ export function IdentitySite({ state, dispatch }: SiteProps) {
   return (
     <div className="site-card">
       <h1>Department of Acceptable Identity</h1>
-      <p>Issue a fictional identity card for compatibility testing.</p>
+      <p>Produce a fictional credential for systems that prefer paper-shaped confidence.</p>
       <button type="button" className="primary-button" onClick={() => dispatch({ type: "identity/generate", card: makeIdentityCard(state) })}>
-        Generate fictional card
+        Manufacture acceptability
       </button>
       {card ? (
         <dl className="identity-card">

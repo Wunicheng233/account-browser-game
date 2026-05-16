@@ -56,7 +56,7 @@ export function createInitialState(now = Date.now()): GameState {
     },
     unlockedRuleIds: ["create.email"],
     riskTags: [],
-    systemLog: ["CloudyAI Account Console initialized."],
+    systemLog: ["CloudyAI account desk initialized. The form is awake."],
     ending: null,
   };
 }

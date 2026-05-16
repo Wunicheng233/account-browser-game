@@ -110,23 +110,23 @@ export const createAccountRules: RuleDefinition[] = [
     id: "create.phoneRegion",
     chapter: "create",
     title: "Phone region",
-    description: "Phone country code must match the account region. Search phone region to find it.",
+    description: "Phone country code must match the account region. Numbers also need passports now.",
     unlockAfter: "create.supportedRegion",
     check: ({ profile }) =>
       phoneMatchesRegion(profile.phone, profile.region)
         ? pass("Phone region agrees with account region.")
-        : fail("Search phone region, then start the phone number with the matching country code.", ["region_mismatch"]),
+        : fail("The phone number is wearing the wrong little flag. Maybe the browser knows how digits cross borders.", ["region_mismatch"]),
   },
   {
     id: "create.smsMatches",
     chapter: "create",
     title: "Current SMS code",
-    description: "SMS code must match the current 6-digit code. Search verification code to find it.",
+    description: "SMS code must match the current 6-digit code. Somewhere nearby, a temporary truth is blinking.",
     unlockAfter: "create.phoneRegion",
     check: ({ profile, browser }) =>
       profile.smsCode === browser.currentSmsCode
         ? pass("Verification code accepted for now.")
-        : fail("Search verification code, then enter the current SMS code.", ["verification_chaser"]),
+        : fail("This code belongs to another moment. The search box is sitting right there, pretending not to help.", ["verification_chaser"]),
   },
   {
     id: "create.smsDigitSum",
@@ -209,20 +209,23 @@ export const createAccountRules: RuleDefinition[] = [
     id: "create.timezone",
     chapter: "create",
     title: "Timezone match",
-    description: "Timezone report must match the account region. Search timezone report to find it.",
+    description: "Timezone report must match the account region. Time, famously, is a compliance document now.",
     unlockAfter: "create.romanizedNeutrality",
     check: (context) =>
       timezoneMatchesRegion(context)
         ? pass("Time agrees with geography.")
-        : fail("Search timezone report, then make the report match account region.", ["region_mismatch"]),
+        : fail("Your clock and your country are telling different stories. A neutral-looking website may adjudicate time.", ["region_mismatch"]),
   },
   {
     id: "create.identityGenerated",
     chapter: "create",
     title: "Identity card",
-    description: "A fictional identity card must be generated. Search acceptable identity to find it.",
+    description: "A fictional identity card must exist. Official-looking fiction is still fiction, allegedly.",
     unlockAfter: "create.timezone",
-    check: ({ profile }) => (profile.identityCard ? pass("Identity artifact generated.") : fail("Search acceptable identity, then generate a fictional identity card.")),
+    check: ({ profile }) =>
+      profile.identityCard
+        ? pass("Identity artifact generated.")
+        : fail("No acceptable identity artifact yet. Perhaps a serious little department is waiting behind a search result."),
   },
   {
     id: "create.identityRegion",

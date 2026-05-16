@@ -16,9 +16,9 @@ export type AddressResolution =
 export const SEARCH_RESULTS: SearchResult[] = [
   {
     site: "cloudyai.signup.fake",
-    title: "CloudyAI Account Console",
+    title: "CloudyAI Account Desk",
     url: "cloudyai.signup.fake",
-    description: "Account creation, recovery, and the feeling that a form is quietly judging you.",
+    description: "Account creation, recovery, and a form quietly measuring the weight of your existence.",
     keywords: ["cloudyai", "account", "signup", "login", "appeal", "safeguards"],
   },
   {

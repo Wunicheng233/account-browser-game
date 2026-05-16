@@ -13,7 +13,7 @@ export function getSiteAccess(site: SiteId, proxyEnabled: boolean): SiteAccess {
       : {
           ok: false,
           title: "Service unavailable",
-          message: "This service is unavailable from your current network.",
+          message: "CloudyAI cannot see you from this network. Try arriving with a more internationally polished posture.",
         };
   }
 
@@ -22,7 +22,7 @@ export function getSiteAccess(site: SiteId, proxyEnabled: boolean): SiteAccess {
       ? {
           ok: false,
           title: "Route rejected",
-          message: "SMS center rejected this route. Please reconnect from a local network.",
+          message: "SMS Local Center distrusts routes with dramatic travel stories. Local numbers prefer local drama.",
         }
       : { ok: true };
   }
@@ -32,7 +32,7 @@ export function getSiteAccess(site: SiteId, proxyEnabled: boolean): SiteAccess {
       ? {
           ok: false,
           title: "Connection refused",
-          message: "Government identity services cannot be accessed through anonymized connections.",
+          message: "The identity counter refuses visitors in a network trench coat. Very traditional, very modern.",
         }
       : { ok: true };
   }

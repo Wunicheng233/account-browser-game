@@ -13,7 +13,7 @@ export function PhoneRegionSite({ state }: PhoneRegionSiteProps) {
   return (
     <div className="site-card phone-region-site">
       <h1>Phone Region Guide</h1>
-      <p>Use the calling code that matches the account region.</p>
+      <p>Every calling code is a tiny border checkpoint for digits.</p>
       <ul className="phone-code-list">
         {SUPPORTED_REGIONS.map((region) => {
           const selected = region === state.profile.region;

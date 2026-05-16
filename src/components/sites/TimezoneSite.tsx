@@ -10,6 +10,7 @@ export function TimezoneSite({ state }: TimezoneSiteProps) {
   return (
     <div className="site-card">
       <h1>Timezone Checker</h1>
+      <p>Your browser has filed the following personality report.</p>
       <dl>
         <dt>Network region</dt>
         <dd>{report.region}</dd>

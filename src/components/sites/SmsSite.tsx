@@ -24,11 +24,11 @@ export function SmsSite({ state, dispatch }: SiteProps) {
   return (
     <div className="site-card">
       <h1>SMS Local Center</h1>
-      <p>Your current verification code is:</p>
+      <p>The system is currently pretending this code was sent somewhere:</p>
       <strong className="code-display">{code}</strong>
-      <p>Digit sum: {digitSum(code)}</p>
+      <p>Digit sum, because arithmetic is trust: {digitSum(code)}</p>
       <button type="button" className="secondary-button" onClick={() => dispatch({ type: "sms/refresh", seed: Date.now(), now: Date.now() })}>
-        Request another code
+        Ask for a newer truth
       </button>
     </div>
   );

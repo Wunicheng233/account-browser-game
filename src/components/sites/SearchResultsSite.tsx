@@ -43,7 +43,7 @@ export function SearchResultsSite({ query, dispatch }: SearchResultsSiteProps) {
       ) : (
         <div className="empty-search">
           <h2>No results found</h2>
-          <p>Try a less honest query. The index likes: verification code, acceptable identity, recovery mailbox, timezone report.</p>
+          <p>Try something a bureaucracy would whisper: verification code, phone region, acceptable identity, recovery mailbox, timezone report.</p>
         </div>
       )}
     </div>

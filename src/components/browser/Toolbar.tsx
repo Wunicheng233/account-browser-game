@@ -44,7 +44,7 @@ export function Toolbar({ state, dispatch }: ToolbarProps) {
           className="address-bar"
           value={address}
           aria-label="Search or enter address"
-          placeholder="Search verification code, acceptable identity, recovery mailbox..."
+          placeholder="Ask the web why compliance needs another website..."
           onChange={(event) => setAddress(event.target.value)}
           onKeyDown={submitOnEnter}
         />
