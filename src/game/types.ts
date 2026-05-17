@@ -113,6 +113,7 @@ export interface RuleDefinition {
 
 export interface RuleEvaluation {
   id: string;
+  chapter: Chapter;
   title: string;
   description: string;
   status: RuleStatus;

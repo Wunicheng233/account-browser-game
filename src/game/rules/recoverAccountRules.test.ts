@@ -26,8 +26,18 @@ describe("recover account rules", () => {
   it("checks comma count against registration region changes", () => {
     const state = makeState({
       chapter: "recover",
-      profile: { appealLetter: "Dear Safeguards Team, I changed nothing, thank you" },
+      profile: { appealLetter: "Dear Safeguards Team, I changed nothing, then I changed nothing again, thank you" },
       history: { regionChangeCount: 2 },
+    });
+
+    expect(byId["recover.regionCommas"].check(state).status).toBe("passed");
+  });
+
+  it("does not make comma count impossible when the required salutation already has a comma", () => {
+    const state = makeState({
+      chapter: "recover",
+      profile: { appealLetter: "Dear Safeguards Team, unsupported location signal thank you" },
+      history: { regionChangeCount: 0 },
     });
 
     expect(byId["recover.regionCommas"].check(state).status).toBe("passed");

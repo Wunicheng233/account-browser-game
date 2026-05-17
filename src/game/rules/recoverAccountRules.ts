@@ -80,12 +80,12 @@ export const recoverAccountRules: RuleDefinition[] = [
     id: "recover.regionCommas",
     chapter: "recover",
     title: "Comma relocation",
-    description: "Appeal letter must contain exactly as many commas as region changes during registration.",
+    description: "Appeal letter must contain the salutation comma plus one comma for each region change during registration.",
     unlockAfter: "recover.denyMultipleAccounts",
     check: ({ profile, history }) =>
-      commaCount(profile.appealLetter) === history.regionChangeCount
+      commaCount(profile.appealLetter) === history.regionChangeCount + 1
         ? pass("Punctuation explains your travel history.")
-        : fail(`Appeal letter must contain exactly ${history.regionChangeCount} commas.`, ["region_mismatch"]),
+        : fail(`Appeal letter must contain exactly ${history.regionChangeCount + 1} commas.`, ["region_mismatch"]),
   },
   {
     id: "recover.firstSmsCode",

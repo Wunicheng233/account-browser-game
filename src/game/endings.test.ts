@@ -17,7 +17,7 @@ function makeCompletedRecoveryState(overrides: Parameters<typeof makeState>[0] =
     ticketNumber,
     smsCode: "482739",
     appealLetter:
-      "Dear Safeguards Team, unsupported location signal REC-42 I did not create multiple accounts 482739, thank you",
+      "Dear Safeguards Team, unsupported location signal REC-42 I did not create multiple accounts, 482739, thank you",
     finalIdentityPhrase: `ordinary@example.com agentx United States ${ticketNumber}`,
     identityCard: {
       name: "Ordinary User",

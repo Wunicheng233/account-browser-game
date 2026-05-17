@@ -163,7 +163,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       if (!canCompleteCreateAccount(state)) return withRuleUpdates(state);
 
       const ticketNumber = ticketFromNow(action.now);
-      return {
+      const nextState: GameState = {
         ...state,
         chapter: "recover",
         unlockedRuleIds: ["recover.salutation"],
@@ -198,6 +198,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         },
         systemLog: [...state.systemLog, "Welcome. Your account has been suspended."],
       };
+      return { ...nextState, unlockedRuleIds: unlockNextRuleIds(nextState) };
     }
 
     case "game/finishRecover":

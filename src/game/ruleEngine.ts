@@ -18,6 +18,7 @@ export function evaluateRules(state: GameState): RuleEvaluation[] {
     if (!state.unlockedRuleIds.includes(rule.id)) {
       return {
         id: rule.id,
+        chapter: rule.chapter,
         title: rule.title,
         description: rule.description,
         status: "locked",
@@ -29,6 +30,7 @@ export function evaluateRules(state: GameState): RuleEvaluation[] {
     const result = rule.check(context);
     return {
       id: rule.id,
+      chapter: rule.chapter,
       title: rule.title,
       description: rule.description,
       status: result.status,

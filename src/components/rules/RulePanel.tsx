@@ -6,7 +6,7 @@ interface RulePanelProps {
 }
 
 export function RulePanel({ state }: RulePanelProps) {
-  const rules = evaluateRules(state);
+  const rules = evaluateRules(state).filter((rule) => rule.chapter === state.chapter);
   const passedCount = rules.filter((rule) => rule.status === "passed").length;
   const visibleRules = [
     ...rules.filter((rule) => rule.status === "failed"),

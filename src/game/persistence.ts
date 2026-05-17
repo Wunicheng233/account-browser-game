@@ -3,6 +3,7 @@ import type { Chapter, EndingId, GameState, PageId, SiteId, SupportedRegion } fr
 
 export const SAVE_KEY = "account-browser-save";
 export const INTRO_SEEN_KEY = "account-browser-intro-seen";
+const RECOVERY_BRIEFING_SEEN_PREFIX = "account-browser-recovery-briefing-seen";
 
 export function saveGame(state: GameState): void {
   localStorage.setItem(SAVE_KEY, JSON.stringify(state));
@@ -14,6 +15,15 @@ export function hasSeenIntro(): boolean {
 
 export function markIntroSeen(): void {
   localStorage.setItem(INTRO_SEEN_KEY, "true");
+}
+
+export function hasSeenRecoveryBriefing(registrationSuccessAt: number | null): boolean {
+  if (registrationSuccessAt === null) return false;
+  return localStorage.getItem(`${RECOVERY_BRIEFING_SEEN_PREFIX}:${registrationSuccessAt}`) === "true";
+}
+
+export function markRecoveryBriefingSeen(registrationSuccessAt: number): void {
+  localStorage.setItem(`${RECOVERY_BRIEFING_SEEN_PREFIX}:${registrationSuccessAt}`, "true");
 }
 
 function isObject(value: unknown): value is Record<string, unknown> {

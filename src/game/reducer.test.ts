@@ -49,7 +49,7 @@ function makeCompletedRecoverState() {
       ticketNumber,
       smsCode: "482739",
       appealLetter:
-        "Dear Safeguards Team, unsupported location signal REC-42 I did not create multiple accounts 482739, thank you",
+        "Dear Safeguards Team, unsupported location signal REC-42 I did not create multiple accounts, 482739, thank you",
       finalIdentityPhrase: `ordinary@example.com agentx United States ${ticketNumber}`,
       identityCard: {
         name: "Ordinary User",
@@ -139,7 +139,7 @@ describe("gameReducer", () => {
     const next = gameReducer(state, { type: "game/completeCreateAccount", now: 123 });
 
     expect(next.chapter).toBe("recover");
-    expect(next.unlockedRuleIds).toEqual(["recover.salutation"]);
+    expect(next.unlockedRuleIds).toEqual(["recover.salutation", "recover.reasonOnce"]);
     expect(next.history.registrationSuccessAt).toBe(123);
     expect(next.history.generatedTicketNumber).toMatch(/^CASE-[0-9]{4}$/);
     expect(next.browser.mailboxMessages.at(-1)?.ticketNumber).toBe(next.history.generatedTicketNumber);
